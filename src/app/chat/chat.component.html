@@ -1,0 +1,94 @@
+<nav class="navbar navbar-default chat_navbar">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" routerLink="/">MyChat</a>
+    </div>
+    <!-- <ul class="nav navbar-nav navbar-right">
+      <li><a routerLink="null" >{{ activeUser.name }}</a></li>
+    </ul> -->
+    <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle user_dropdown" data-toggle="dropdown">{{ activeUser.name }} <span class="glyphicon glyphicon-user pull-right user_icon"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Profile <span class="glyphicon glyphicon-cog pull-right"></span></a></li>
+            <li><a (click)="onLogout(activeUser._id)" routerLink="null">Sign Out <span class="glyphicon glyphicon-log-out pull-right"></span></a></li>
+          </ul>
+        </li>
+      </ul>
+  </div>
+</nav>
+
+<div class="container">
+    <div class="row chat_blk">
+      <div class="col-xs-12 col-md-4">
+        <div class="panel panel-default users_panel">
+          <div class="panel-heading user_panel_heading">
+            Users
+          </div>
+          <div class="panel-body users_panel_body">
+            <ul class="users_ul">
+              <span *ngFor="let user of users">
+                <li *ngIf="activeUser._id != user._id" [ngClass]="{'active-user': chatUser && chatUser._id == user._id }" (click)="onClickUser(user)">{{ user.name }}
+                  <span *ngIf="!user.login" class="status-dot offline-dot" title="Offline"></span>
+                  <span title="Online" *ngIf="user.login" class="status-dot online-dot"></span>
+                </li>
+              </span>
+            </ul>
+          </div>
+        </div>
+      </div>
+    <div class="col-xs-12 col-md-8">
+        <div class="col-xs-12 col-md-12">
+          <div class="panel panel-default">
+              <div *ngIf="chatUser else noActiveChat">
+                <div class="panel-heading top-bar chat_panel_heading">
+                    <div class="col-md-8 col-xs-8">
+                        <h3 class="panel-title"><span class="glyphicon glyphicon-comment"></span>{{ chatUser ? chatUser.name : '' }}</h3>
+                    </div>
+                </div>
+
+                <div class="panel-body msg_container_base chat_panel_body">
+                    <span *ngFor="let msg of messages">
+                      <div class="row msg_container base_sent" *ngIf="activeUser._id === msg.sender_id">
+                          <div class="col-md-10 col-xs-10">
+                              <div class="messages msg_sent">
+                                  <p>{{ msg.message }}</p>
+                                  <time datetime="2009-11-13T20:00">Timothy • 51 min</time>
+                              </div>
+                          </div>
+                          <div class="col-md-2 col-xs-2 avatar">
+                              <img src="https://media.licdn.com/dms/image/C5103AQHaPpniffZ8EQ/profile-displayphoto-shrink_200_200/0?e=1569456000&v=beta&t=9AUJatRq-xKdjKDdac8Fh5m0vgb6Vg_yUk3buhrc5MY" class="img-circle user_image">
+                          </div>
+                      </div>
+                      <div class="row msg_container base_receive" *ngIf="activeUser._id === msg.receiver_id">
+                          <div class="col-md-2 col-xs-2 avatar">
+                              <img src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg" class="img-circle img-thumbnail user_image">
+                          </div>
+                          <div class="col-md-10 col-xs-10">
+                              <div class="messages msg_receive">
+                                  <p>{{ msg.message }}</p>
+                                  <time datetime="2009-11-13T20:00">Timothy • 51 min</time>
+                              </div>
+                          </div>
+                      </div>
+                    </span>
+                </div>
+                <div class="panel-footer">
+                    <div class="input-group">
+                        <input id="btn-input" name="message" type="text" class="form-control input-sm chat_input" [(ngModel)]="message" (keyup)="$event.keyCode == 13 && sendMessage()" placeholder="Write your message here..." />
+                        <span class="input-group-btn">
+                        <button class="btn btn-primary btn-sm" (click)="sendMessage()" id="btn-chat">Send</button>
+                        </span>
+                    </div>
+                </div>
+              </div>
+              <ng-template #noActiveChat>
+                <div class="panel-body no_active_chat_panel">
+                  <h1 class="welcome_text">Welcome to MyChat</h1>
+                </div>
+              </ng-template>
+        </div>
+        </div>
+    </div>
+  </div>
+</div>

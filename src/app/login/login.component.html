@@ -1,0 +1,28 @@
+<div class="container">
+	<div class="login-form">
+		<div class="main-div">
+		    <div class="panel">
+			   <h2>Login</h2>
+		    </div>
+		    <form (submit)="onLogin()" #myForm="ngForm">
+		        <div class="form-group">
+		            <input type="text" required placeholder="User Name" [(ngModel)]="username" name="username" (keyup)="$event.keyCode == 13 && myForm.touched && myForm.status === 'VALID' && onLogin()"
+		            [ngClass]="{'form-control': true,
+		        	'is-valid': myForm.touched && myForm.status === 'VALID',
+		        	'is-invalid': myForm.touched && myForm.status === 'INVALID'}"
+		            >
+		        	<small class="text-danger" *ngIf="myForm.touched && myForm.status === 'INVALID'"><i>Username is required</i></small>
+		        </div>
+
+		        <!-- <div class="form-group">
+		            <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+		        </div> -->
+		        <!-- <div class="forgot">
+		        	<a href="reset.html">Forgot password?</a>
+				</div> -->
+		        <button [disabled]="myForm.status === 'INVALID'" type="submit"  class="btn btn-primary">Login</button>
+		    </form>
+		</div>
+		<!-- <p class="botto-text"> Designed by Sunil Rajput</p> -->
+	</div>
+</div>
